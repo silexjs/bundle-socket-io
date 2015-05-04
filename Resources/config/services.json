@@ -1,0 +1,19 @@
+{
+	"services": {
+		"silex.socket_io.service": {
+			"class": "Silex.SocketIoBundle.Services.SocketIo",
+			"arguments": [
+				{ "type": "service", "id": "kernel" },
+				{ "type": "service", "id": "kernel.container" },
+				{ "type": "service", "id": "kernel.dispatcher" },
+				{ "type": "service", "id": "kernel.config" },
+				{ "type": "service", "id": "kernel.log" }
+			],
+			"events": [
+				{ "listener": "http.server.created", "method": "onHttpServerCreated", "priority": 50 },
+				{ "listener": "kernel.ready", "method": "onKernelReady", "priority": 105 }
+			],
+			"priority": 5
+		}
+	}
+}

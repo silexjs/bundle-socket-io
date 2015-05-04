@@ -1,0 +1,33 @@
+{
+	"name": "silex-bundle-socket-io",
+	"version": "0.0.1",
+	"description": "[SILEX][BUNDLE] Sets up an Socket.io server",
+	"author": "Valentin Allaire <valentin@sitexw.fr>",
+	"license": "MIT",
+	"keywords": [
+		"socket",
+		"socket.io",
+		"web",
+		"bundle"
+	],
+	"dependencies": {
+		"spaceload": "<2.0.0",
+		"socket.io": "<2.0.0",
+		"socket.io-client": "<2.0.0",
+		"socket.io-redis": "<2.0.0"
+	},
+	"devDependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/silexjs/bundle-socket-io.git"
+	},
+	"bugs": {
+		"url": "https://github.com/silexjs/bundle-socket-io/issues"
+	},
+	"homepage": "https://github.com/silexjs/bundle-socket-io",
+	"autoload": {
+		"psr-4": {
+			"Silex\\SocketIoBundle": "./"
+		}
+	}
+}
