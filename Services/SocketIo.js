@@ -1,4 +1,5 @@
 var http = require('http');
+var getClientIp = require('request-ip').getClientIp;
 
 
 var SocketIo = function(kernel, containerService, dispatcherService, configService, logService) {
@@ -66,10 +67,11 @@ SocketIo.prototype = {
 			io.adapter(require('socket.io-redis')(this.config.server.redis));
 		}
 		io.on('connection', function(socket) {
+			socket.request.connection.realRemoteAddress = getClientIp(socket.request.connection.parser.incoming);
 			socket.on('disconnect', function() {
 				if(self.debug === true) {
 					var d = new Date;
-					self.log('Left user ('+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+'.'+d.getMilliseconds()+' | ID: '+socket.client.id+')');
+					self.log('Left user ('+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+'.'+d.getMilliseconds()+' | ID: '+socket.client.id+' | IP: '+socket.request.connection.realRemoteAddress+')');
 				}
 			});
 			self.onIoConnection(socket, io);
@@ -81,7 +83,7 @@ SocketIo.prototype = {
 	onIoConnection: function(socket, io) {
 		if(this.debug === true) {
 			var d = new Date;
-			this.log('New user ('+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+'.'+d.getMilliseconds()+' | ID: '+socket.client.id+')');
+			this.log('New user ('+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()+'.'+d.getMilliseconds()+' | ID: '+socket.client.id+' | IP: '+socket.request.connection.realRemoteAddress+')');
 		}
 		this.dispatcherService.dispatch('socket.server.connection', [socket, io]);
 	},
